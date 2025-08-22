@@ -84,6 +84,7 @@ public class BananaBot {
                     } else {
                         throw new DukeException("Invalid task number!");
                     }
+
                 } else if (input.toLowerCase().startsWith("todo ")) {
                     String description = input.substring(5).trim();
                     if (description.isEmpty()) {
@@ -135,6 +136,19 @@ public class BananaBot {
                         System.out.println("____________________________________________________________");
                     }
 
+                } else if (input.toLowerCase().startsWith("delete ")) {
+                    int taskNumber = Integer.parseInt(input.substring(7).trim()) - 1;
+                    if (taskNumber >= 0 && taskNumber < toDoList.size()) {
+                        Task removedTask = toDoList.remove(taskNumber);
+                        System.out.println("____________________________________________________________");
+                        System.out.println(" Noted. I've removed this task:");
+                        System.out.println("   " + removedTask);
+                        System.out.println(" Now you have " + toDoList.size() + " tasks in the list.");
+                        System.out.println("____________________________________________________________");
+                    } else {
+                        throw new DukeException("Invalid task number!");
+                    }
+
                 } else if (input.equalsIgnoreCase("bye")) {
                     System.out.println("\nBye. Hope to see you again soon!");
                     break;
@@ -142,6 +156,7 @@ public class BananaBot {
                 } else {
                     throw new DukeException("I'm sorry, but I don't know what that means :-(");
                 }
+
             } catch (DukeException e) {
                 System.out.println("____________________________________________________________");
                 System.out.println("Dude! " + e.getMessage());
