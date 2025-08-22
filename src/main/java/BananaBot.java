@@ -1,5 +1,8 @@
+import java.util.Scanner;
+
 public class BananaBot {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         String logo = "                  __,__\n" +
                 "        .--.  .-\"     \"-.  .--.\n" +
                 "       / .. \\/  .-. .-.  \\/ .. \\\n" +
@@ -26,6 +29,16 @@ public class BananaBot {
                 "           | |     \\'.\n" +
                 "            \\ '....' |\n" +
                 "             '.,___.'";
-        System.out.println("Hello I'm BananaBot\n" + logo + "\nWhat can I do for you?" + "\nBye. Hope to see you again soon!");
+
+        System.out.println("Hello I'm BananaBot\n" + logo + "\nWhat can I do for you?" );
+        while(true) {
+            String input = scanner.nextLine();
+            System.out.println(input);
+
+            if (input.equalsIgnoreCase("bye")) {
+                System.out.println("\nBye. Hope to see you again soon!");
+                break;
+            }
+        }
     }
 }
