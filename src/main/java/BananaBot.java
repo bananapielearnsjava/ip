@@ -43,7 +43,9 @@ public class BananaBot {
                 for (int i = 0; i < toDoList.size(); i++) {
                     System.out.println((i + 1) + "." + toDoList.get(i).toString());
                 }
+                System.out.println("You have " + toDoList.size() + " tasks in the list.");
                 System.out.println("____________________________________________________________");
+
             } else if (input.toLowerCase().startsWith("mark ")) {
                 int taskNumber = Integer.parseInt(input.substring(5).trim()) - 1;
                 if (taskNumber >= 0 && taskNumber < toDoList.size()) {
@@ -83,6 +85,65 @@ public class BananaBot {
                 } else {
                     System.out.println("____________________________________________________________");
                     System.out.println("Invalid task number!");
+                    System.out.println("____________________________________________________________");
+                }
+            } else if (input.toLowerCase().startsWith("todo ")) {
+                String description = input.substring(5).trim();
+                if (description.isEmpty()) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println("The description of a todo cannot be empty.");
+                    System.out.println("____________________________________________________________");
+                } else {
+                    Task task = new ToDo(description);
+                    toDoList.add(task);
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println("  " + task);
+                    System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                }
+
+            } else if (input.toLowerCase().startsWith("deadline ")) {
+                String[] parts = input.substring(9).split("/by", 2);
+                if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Invalid deadline format! Use: deadline <description> /by <date>");
+                    System.out.println("____________________________________________________________");
+                } else {
+                    String description = parts[0].trim();
+                    String by = parts[1].trim();
+                    Task deadline = new Deadline(description, by);
+                    toDoList.add(deadline);
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Got it. I've added this deadline:");
+                    System.out.println("  " + deadline);
+                    System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                }
+
+            } else if (input.toLowerCase().startsWith("event ")) {
+                String[] parts = input.substring(6).split("/from", 2);
+                if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Invalid event format! Use: event <description> /at <time>");
+                    System.out.println("____________________________________________________________");
+                } else {
+                    String description = parts[0].trim();
+                    String[] timeParts = parts[1].trim().split("/to");
+                    if (timeParts.length < 2 || timeParts[0].trim().isEmpty() || timeParts[1].trim().isEmpty()) {
+                        System.out.println("____________________________________________________________");
+                        System.out.println("Invalid event format! Missing time details.");
+                        System.out.println("____________________________________________________________");
+                        return;
+                    }
+                    String from = timeParts[0].trim();
+                    String to = timeParts[1].trim();
+                    Task event = new Event(description, from, to);
+                    toDoList.add(event);
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Got it. I've added this event:");
+                    System.out.println("  " + event);
+                    System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
                     System.out.println("____________________________________________________________");
                 }
 
