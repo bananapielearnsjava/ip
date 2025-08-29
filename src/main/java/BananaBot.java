@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class BananaBot {
     private static final String STORAGE_DIR = "./data";
@@ -164,6 +166,32 @@ public class BananaBot {
                         throw new DukeException("Invalid task number!");
                     }
 
+                } else if (input.toLowerCase().startsWith("on ")) {
+                    String dateStr = input.substring(3).trim();
+                    LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    System.out.println("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+                    boolean found = false;
+
+                    for (Task task : toDoList) {
+                        if (task instanceof Deadline) {
+                            Deadline d = (Deadline) task;
+                            if (d.by.toLocalDate().equals(date)) {
+                                System.out.println("  " + d);
+                                found = true;
+                            }
+                        } else if (task instanceof Event) {
+                            Event e = (Event) task;
+                            if (e.from.toLocalDate().equals(date) || e.to.toLocalDate().equals(date)) {
+                                System.out.println("  " + e);
+                                found = true;
+                            }
+                        }
+                    }
+
+                    if (!found) {
+                        System.out.println("\nNo task on this date.");
+                    }
+
                 } else if (input.equalsIgnoreCase("bye")) {
                     System.out.println("\nBye. Hope to see you again soon!");
                     break;
@@ -194,15 +222,21 @@ public class BananaBot {
                     line = "T | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription();
                 } else if (task instanceof Deadline) {
                     Deadline deadline = (Deadline) task;
-                    line = "D | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription() + " | " + deadline.by;
+                    // save in raw format
+                    line = "D | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription()
+                            + " | " + deadline.by.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
                 } else if (task instanceof Event) {
                     Event event = (Event) task;
-                    line = "E | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription() + " | " + event.from + " - " + event.to;
+                    // save in raw format
+                    line = "E | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription()
+                            + " | " + event.from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"))
+                            + " - " + event.to.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
                 }
                 writer.println(line);
             }
         }
     }
+
 
     private static void loadTasks() {
         File file = new File(FILE_PATH);
@@ -235,7 +269,6 @@ public class BananaBot {
                 if (task != null) {
                     if (isDone) {
                         task.markAsDone();
-                        // Mark as done if it was done in the file originally, so that it won't start with not done
                     }
                     toDoList.add(task);
                 }
