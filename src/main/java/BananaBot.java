@@ -1,11 +1,19 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class BananaBot {
+    private static final String STORAGE_DIR = "./data";
+    private static final String FILE_PATH = STORAGE_DIR + "/duke.txt";
+    private static List<Task> toDoList = new ArrayList<>();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<Task> toDoList = new ArrayList<>();
+        createStorageIfNotExists(); // Ensure data directory exists
+        loadTasks();
 
         String logo = "                  __,__\n" +
                 "        .--.  .-\"     \"-.  .--.\n" +
@@ -53,6 +61,7 @@ public class BananaBot {
                         Task task = toDoList.get(taskNumber);
                         if (!task.isDone()) {
                             task.markAsDone();
+                            saveTasks();
                             System.out.println("____________________________________________________________");
                             System.out.println("Nice! I've marked this task as done:");
                             System.out.println("  [X] " + task.getDescription());
@@ -72,6 +81,7 @@ public class BananaBot {
                         Task task = toDoList.get(taskNumber);
                         if (task.isDone()) {
                             task.markAsDone();
+                            saveTasks();
                             System.out.println("____________________________________________________________");
                             System.out.println("OK, I've marked this task as not done yet:");
                             System.out.println("  [ ] " + task.getDescription());
@@ -92,6 +102,7 @@ public class BananaBot {
                     } else {
                         Task task = new ToDo(description);
                         toDoList.add(task);
+                        saveTasks();
                         System.out.println("____________________________________________________________");
                         System.out.println("Got it. I've added this task:");
                         System.out.println("  " + task);
@@ -108,6 +119,7 @@ public class BananaBot {
                         String by = parts[1].trim();
                         Task deadline = new Deadline(description, by);
                         toDoList.add(deadline);
+                        saveTasks();
                         System.out.println("____________________________________________________________");
                         System.out.println("Got it. I've added this deadline:");
                         System.out.println("  " + deadline);
@@ -129,6 +141,7 @@ public class BananaBot {
                         String to = timeParts[1].trim();
                         Task event = new Event(description, from, to);
                         toDoList.add(event);
+                        saveTasks();
                         System.out.println("____________________________________________________________");
                         System.out.println("Got it. I've added this event:");
                         System.out.println("  " + event);
@@ -157,12 +170,76 @@ public class BananaBot {
                     throw new DukeException("I'm sorry, but I don't know what that means :-(");
                 }
 
-            } catch (DukeException e) {
+            } catch (DukeException | IOException e) {
                 System.out.println("____________________________________________________________");
                 System.out.println("Dude! " + e.getMessage());
                 System.out.println("____________________________________________________________");
             }
         }
         scanner.close();
+    }
+    private static void createStorageIfNotExists() {
+        File directory = new File(STORAGE_DIR);
+        if (!directory.exists()) {
+            directory.mkdirs(); // Create directory and any necessary parent directories
+        }
+    }
+    private static void saveTasks() throws IOException {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_PATH))) {
+            for (Task task : toDoList) {
+                String line = "";
+                if (task instanceof ToDo) {
+                    line = "T | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription();
+                } else if (task instanceof Deadline) {
+                    Deadline deadline = (Deadline) task;
+                    line = "D | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription() + " | " + deadline.by;
+                } else if (task instanceof Event) {
+                    Event event = (Event) task;
+                    line = "E | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription() + " | " + event.from + " - " + event.to;
+                }
+                writer.println(line);
+            }
+        }
+    }
+
+    private static void loadTasks() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return; // No file to load
+        }
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(" \\| ");
+                String type = parts[0];
+                boolean isDone = parts[1].equals("1");
+                String description = parts[2];
+                Task task = null;
+                switch (type) {
+                    case "T":
+                        task = new ToDo(description);
+                        break;
+                    case "D":
+                        String by = parts[3];
+                        task = new Deadline(description, by);
+                        break;
+                    case "E":
+                        String[] timeParts = parts[3].split(" - ");
+                        String from = timeParts[0];
+                        String to = timeParts[1];
+                        task = new Event(description, from, to);
+                        break;
+                }
+                if (task != null) {
+                    if (isDone) {
+                        task.markAsDone();
+                        // Mark as done if it was done in the file originally, so that it won't start with not done
+                    }
+                    toDoList.add(task);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
+        }
     }
 }
