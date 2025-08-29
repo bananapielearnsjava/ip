@@ -8,21 +8,22 @@ import java.util.Scanner;
 
 public class BananaBot {
     private static final String STORAGE_DIR = "./data";
-    private static final String FILE_PATH = STORAGE_DIR + "/duke.txt";
+    private static final String FILE_PATH = STORAGE_DIR + "/bot.txt";
     private static List<Task> toDoList = new ArrayList<>();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         createStorageIfNotExists(); // Ensure data directory exists
         loadTasks();
 
-        String logo = "                  __,__\n" +
+        String logo =
+                "                  __,__\n" +
                 "        .--.  .-\"     \"-.  .--.\n" +
                 "       / .. \\/  .-. .-.  \\/ .. \\\n" +
                 "      | |  '|  /   Y   \\  |'  | |\n" +
                 "      | \\   \\  \\ 0 | 0 /  /   / |\n" +
                 "       \\ '- ,\\.-\"`` ``\"-./, -' /\n" +
                 "        `'-' /_   ^ ^   _\\ '-'`\n" +
-                "        .--'|  \\._ _ _./  |'--. \n" +
+                "        .--'|  \\._ _ _./  |'--.\n" +
                 "      /`    \\   \\.-.  /   /    `\\\n" +
                 "     /       '._/  |-' _.'       \\\n" +
                 "    /          ;  /--~'   |       \\\n" +
@@ -41,6 +42,7 @@ public class BananaBot {
                 "           | |     \\'.\n" +
                 "            \\ '....' |\n" +
                 "             '.,___.'";
+
 
         System.out.println("Hello I'm BananaBot\n" + logo + "\nWhat can I do for you?" );
         while (true) {
