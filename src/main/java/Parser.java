@@ -7,21 +7,21 @@ import java.io.IOException;
  */
 
 public class Parser {
-    public void parse(String input, TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
+    public static Command parse(String input) throws DukeException, IOException {
         if (input.equalsIgnoreCase("list")) {
-            tasks.listTasks(ui);
+            return new ListCommand();
         } else if (input.toLowerCase().startsWith("mark ")) {
             int taskNumber = Integer.parseInt(input.substring(5).trim()) - 1;
-            tasks.markTask(taskNumber, ui, storage);
+            return new MarkCommand(taskNumber);
         } else if (input.toLowerCase().startsWith("unmark ")) {
             int taskNumber = Integer.parseInt(input.substring(7).trim()) - 1;
-            tasks.unmarkTask(taskNumber, ui, storage);
+            return new UnmarkCommand(taskNumber);
         } else if (input.toLowerCase().startsWith("todo ")) {
             String description = input.substring(5).trim();
             if (description.isEmpty()) {
                 throw new DukeException("The description of a todo cannot be empty.");
             }
-            tasks.addTask(new ToDo(description), ui, storage);
+            return new AddCommand(new ToDo(description));
         } else if (input.toLowerCase().startsWith("deadline ")) {
             String[] parts = input.substring(9).split("/by", 2);
             if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
@@ -29,7 +29,7 @@ public class Parser {
             }
             String description = parts[0].trim();
             String by = parts[1].trim();
-            tasks.addTask(new Deadline(description, by), ui, storage);
+            return new AddCommand(new Deadline(description, by));
         } else if (input.toLowerCase().startsWith("event ")) {
             String[] parts = input.substring(6).split("/from", 2);
             if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
@@ -42,14 +42,16 @@ public class Parser {
             }
             String from = timeParts[0].trim();
             String to = timeParts[1].trim();
-            tasks.addTask(new Event(description, from, to), ui, storage);
+            return new AddCommand(new Event(description, from, to));
         } else if (input.toLowerCase().startsWith("delete ")) {
             int taskNumber = Integer.parseInt(input.substring(7).trim()) - 1;
-            tasks.deleteTask(taskNumber, ui, storage);
+            return new DeleteCommand(taskNumber);
         } else if (input.toLowerCase().startsWith("on ")) {
             String dateStr = input.substring(3).trim();
             LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            tasks.findTasksOnDate(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")), ui);
+            return new FindCommand(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
+        } else if (input.equalsIgnoreCase("bye")) {
+                return new ExitCommand();
         } else {
             throw new DukeException("I'm sorry, but I don't know what that means :-(");
         }

@@ -1,12 +1,14 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Scanner;
 
 /*
  *Responsible for all output to user.
  */
 
 class Ui {
+    private Scanner scanner = new Scanner(System.in);
     private static final String LOGO =
             "                  __,__\n" +
             "        .--.  .-\"     \"-.  .--.\n" +
@@ -26,7 +28,7 @@ class Ui {
             "     '-.,_ ;     ___)          \\/   /\n" +
             "      \\   ``'------'\\       \\   `  /\n" +
             "       '.    \\       '.      |   ;/_\n" +
-            "jgs  ___>     '.       \\_ _ _/   ,  '--.\n" +
+            "...  ___>     '.       \\_ _ _/   ,  '--.\n" +
             "   .'   '.   .-~~~~~-. /     |--'`~~-.  \\\n" +
             "  // / .---'/  .-~~-._/ / / /---..__.'  /\n" +
             " ((_(_/    /  /      (_(_(_(---.__    .'\n" +
@@ -128,6 +130,14 @@ class Ui {
         if (!found) {
             System.out.println("\nNo task on this date.");
         }
+        System.out.println("____________________________________________________________");
+    }
+
+    public String readCommand() {
+        return scanner.nextLine();
+    }
+
+    public void showLine() {
         System.out.println("____________________________________________________________");
     }
 }

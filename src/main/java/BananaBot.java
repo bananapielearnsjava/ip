@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.Scanner;
 
 public class BananaBot {
     private Storage storage;
@@ -21,20 +20,22 @@ public class BananaBot {
 
     public void run() {
         ui.showWelcome();
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
+        boolean isExit = false;
+        while (!isExit) {
             try {
-                String input = scanner.nextLine();
-                if (input.equalsIgnoreCase("bye")) {
-                    ui.showGoodbye();
-                    break;
-                }
-                parser.parse(input, tasks, ui, storage);
-            } catch (DukeException | IOException e) {
+                String fullCommand = ui.readCommand();
+                ui.showLine();
+                Command c = parser.parse(fullCommand);
+                c.execute(tasks, ui, storage);
+                isExit = c.isExit();
+            } catch (DukeException e) {
                 ui.showError(e.getMessage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } finally {
+                ui.showLine();
             }
         }
-        scanner.close();
     }
 
     public static void main(String[] args) {
