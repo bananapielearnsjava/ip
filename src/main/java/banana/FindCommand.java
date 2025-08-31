@@ -2,6 +2,9 @@ package banana;
 
 import java.io.IOException;
 
+/**
+ * Represents a command to find tasks on a specific date.
+ */
 public class FindCommand extends Command {
     private final String dateStr;
 

@@ -1,6 +1,10 @@
 package banana;
 
 import java.io.IOException;
+
+/**
+ * Represents a command to unmark a task as not done.
+ */
 public class UnmarkCommand extends Command {
     private final int index;
 
