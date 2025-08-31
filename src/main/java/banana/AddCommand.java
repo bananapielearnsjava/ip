@@ -2,6 +2,9 @@ package banana;
 
 import java.io.IOException;
 
+/**
+ * Represents a command to add a task to the task list.
+ */
 public class AddCommand extends Command {
     private final Task task;
 

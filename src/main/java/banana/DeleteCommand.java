@@ -2,6 +2,9 @@ package banana;
 
 import java.io.IOException;
 
+/**
+ * Represents a command to delete a task from the task list.
+ */
 public class DeleteCommand extends Command {
     private final int index;
 
