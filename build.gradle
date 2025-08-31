@@ -37,6 +37,7 @@ application {
 shadowJar {
     archiveBaseName = "BananaBot"
     archiveClassifier = null
+    archiveFileName = 'banana.jar'
 }
 
 checkstyle {
