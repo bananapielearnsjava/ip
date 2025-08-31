@@ -59,6 +59,10 @@ public class Parser {
             String dateStr = input.substring(3).trim();
             LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             return new FindCommand(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
+        } else if (input.toLowerCase().startsWith("find ")) {
+            String keyword = input.substring(5).trim();
+            Ui ui = new Ui();
+            return new FindKeywordCommand(keyword, ui);
         } else if (input.equalsIgnoreCase("bye")) {
             return new ExitCommand();
         } else {

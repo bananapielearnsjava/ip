@@ -122,8 +122,11 @@ class Ui {
                 }
             } else if (task instanceof Event) {
                 Event e = (Event) task;
-                if (e.from.toLocalDate().equals(LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("MMM dd yyyy"))) ||
-                        e.to.toLocalDate().equals(LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("MMM dd yyyy")))) {
+                if (e.from.toLocalDate().equals(LocalDate.parse(
+                        dateStr, DateTimeFormatter.ofPattern("MMM dd yyyy")))
+                        ||
+                        e.to.toLocalDate().equals(LocalDate.parse(
+                                dateStr, DateTimeFormatter.ofPattern("MMM dd yyyy")))) {
                     System.out.println("  " + e);
                     found = true;
                 }
@@ -131,6 +134,27 @@ class Ui {
         }
         if (!found) {
             System.out.println("\nNo task on this date.");
+        }
+        System.out.println("____________________________________________________________");
+    }
+    public void showFoundTasks(String keyword, List<Task> tasks) {
+        System.out.println("____________________________________________________________");
+        if (tasks == null || tasks.isEmpty()) {
+            System.out.println("No tasks found containing the keyword: " + keyword);
+        } else {
+            boolean foundMatch = false;
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i).getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                    if (!foundMatch) {
+                        System.out.println("Here are the matching tasks in your list:");
+                        foundMatch = true;
+                    }
+                    System.out.println((i + 1) + "." + tasks.get(i).toString());
+                }
+            }
+            if (!foundMatch) {
+                System.out.println("No tasks found containing the keyword: " + keyword);
+            }
         }
         System.out.println("____________________________________________________________");
     }

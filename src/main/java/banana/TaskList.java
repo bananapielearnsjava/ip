@@ -109,4 +109,12 @@ public class TaskList {
     public List<Task> getTasks() {
         return tasks;
     }
+    /**
+     * Finds and returns a list of tasks that contain the specified keyword in their description.
+     *
+     * @param keyword The keyword to search for.
+     */
+    public void findTasks(String keyword, Ui ui) {
+        ui.showFoundTasks(keyword, tasks);
+    }
 }
