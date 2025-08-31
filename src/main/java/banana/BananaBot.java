@@ -2,12 +2,20 @@ package banana;
 
 import java.io.IOException;
 
+/**
+ * A personal assistant chatbot that helps users manage their tasks.
+ */
 public class BananaBot {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
     private Parser parser;
 
+    /**
+     * Initializes the BananaBot with the specified file path for storage.
+     *
+     * @param filePath The file path where tasks are stored.
+     */
     public BananaBot(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -20,6 +28,9 @@ public class BananaBot {
         }
     }
 
+    /**
+     * Runs the main loop of the BananaBot, processing user commands until exit.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;

@@ -1,14 +1,21 @@
 package banana;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.io.IOException;
 
 /**
  * Parses user input and executes corresponding commands.
  */
-
 public class Parser {
+    /**
+     * Parses the user input and returns the corresponding Command object.
+     *
+     * @param input The user input string.
+     * @return The Command object corresponding to the user input.
+     * @throws DukeException If the input is invalid or cannot be parsed.
+     * @throws IOException   If there is an error during command execution.
+     */
     public static Command parse(String input) throws DukeException, IOException {
         if (input.equalsIgnoreCase("list")) {
             return new ListCommand();
@@ -53,7 +60,7 @@ public class Parser {
             LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             return new FindCommand(date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
         } else if (input.equalsIgnoreCase("bye")) {
-                return new ExitCommand();
+            return new ExitCommand();
         } else {
             throw new DukeException("I'm sorry, but I don't know what that means :-(");
         }

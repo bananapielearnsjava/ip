@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.time.format.DateTimeFormatter;
 
+/**
+ * Manages the storage of tasks to and from a file.
+ */
 class Storage {
     private static final String STORAGE_DIR = "./data";
     private final String filePath;
@@ -40,19 +43,21 @@ class Storage {
                 String description = parts[2];
                 Task task = null;
                 switch (type) {
-                    case "T":
-                        task = new ToDo(description);
-                        break;
-                    case "D":
-                        String by = parts[3];
-                        task = new Deadline(description, by);
-                        break;
-                    case "E":
-                        String[] timeParts = parts[3].split(" - ");
-                        String from = timeParts[0];
-                        String to = timeParts[1];
-                        task = new Event(description, from, to);
-                        break;
+                case "T":
+                    task = new ToDo(description);
+                    break;
+                case "D":
+                    String by = parts[3];
+                    task = new Deadline(description, by);
+                    break;
+                case "E":
+                    String[] timeParts = parts[3].split(" - ");
+                    String from = timeParts[0];
+                    String to = timeParts[1];
+                    task = new Event(description, from, to);
+                    break;
+                default:
+                    System.out.println("Unknown task type in storage: " + type);
                 }
                 if (task != null) {
                     if (isDone) {

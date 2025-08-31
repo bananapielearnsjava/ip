@@ -1,8 +1,16 @@
 package banana;
+
+/**
+ * Represents a task with a description and completion status.
+ */
 public class Task {
     protected String description;
     protected boolean isDone;
-
+    /**
+     * Constructs a Task with the given description.
+     *
+     * @param description Description of the task.
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;
