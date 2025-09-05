@@ -1,10 +1,11 @@
 package banana;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import banana.task.Deadline;
 import org.junit.jupiter.api.Test;
 
 public class DeadlineTest {

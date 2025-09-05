@@ -1,6 +1,10 @@
-package banana;
+package banana.command;
 
 import java.io.IOException;
+
+import banana.exceptions.BananaException;
+import banana.utils.Storage;
+import banana.utils.TaskList;
 
 /**
  * Represents a command to find tasks on a specific date.
@@ -13,7 +17,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
-        tasks.findTasksOnDate(dateStr, ui);
+    public void execute(TaskList tasks, Storage storage) throws BananaException, IOException {
+        tasks.findTasksOnDate(dateStr);
     }
 }

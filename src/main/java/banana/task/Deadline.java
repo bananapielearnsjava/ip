@@ -1,4 +1,4 @@
-package banana;
+package banana.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +18,13 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(description);
         this.by = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+    }
+    /**
+     * Gets the due date/time of the deadline task.
+     * @return The due date/time as a LocalDateTime object.
+     */
+    public LocalDateTime getBy() {
+        return by;
     }
 
     @Override

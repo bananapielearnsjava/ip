@@ -1,4 +1,4 @@
-package banana;
+package banana.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +23,20 @@ public class Event extends Task {
         this.to = LocalDateTime.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
     }
 
+    /**
+     * Gets the start date/time of the event task.
+     * @return The start date/time as a LocalDateTime object.
+     */
+    public LocalDateTime getFrom() {
+        return from;
+    }
+    /**
+     * Gets the end date/time of the event task.
+     * @return The end date/time as a LocalDateTime object.
+     */
+    public LocalDateTime getTo() {
+        return to;
+    }
     @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: "

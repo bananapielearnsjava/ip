@@ -1,6 +1,13 @@
-package banana;
+package banana.main;
 
 import java.io.IOException;
+
+import banana.command.Command;
+import banana.exceptions.BananaException;
+import banana.utils.Parser;
+import banana.utils.Storage;
+import banana.utils.TaskList;
+import banana.utils.Ui;
 
 /**
  * A personal assistant chatbot that helps users manage their tasks.
@@ -39,9 +46,9 @@ public class BananaBot {
                 String fullCommand = ui.readCommand();
                 ui.showLine();
                 Command c = parser.parse(fullCommand);
-                c.execute(tasks, ui, storage);
+                c.execute(tasks, storage);
                 isExit = c.isExit();
-            } catch (DukeException e) {
+            } catch (BananaException e) {
                 ui.showError(e.getMessage());
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -52,6 +59,6 @@ public class BananaBot {
     }
 
     public static void main(String[] args) {
-        new BananaBot("./data/bot.txt").run();
+        new BananaBot("data/bot.txt").run();
     }
 }

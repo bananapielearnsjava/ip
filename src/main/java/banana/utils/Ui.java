@@ -1,14 +1,18 @@
-package banana;
+package banana.utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
-/*
+import banana.task.Deadline;
+import banana.task.Event;
+import banana.task.Task;
+
+/**
  * Responsible for all output to user.
  */
-class Ui {
+public class Ui {
     @SuppressWarnings({"checkstyle:OperatorWrap", "CheckStyle"})
     private static final String LOGO =
             "                  __,__\n" +
@@ -44,7 +48,7 @@ class Ui {
         System.out.println("Hello I'm BananaBot\n" + LOGO + "\nWhat can I do for you?");
     }
 
-    public void showGoodbye() {
+    public static void showGoodbye() {
         System.out.println("\nBye. Hope to see you again soon!");
     }
 
@@ -52,13 +56,21 @@ class Ui {
         System.out.println("Error loading tasks from file.");
     }
 
+    /**
+     * Displays an error message to the user.
+     * @param message The error message to display.
+     */
     public void showError(String message) {
         System.out.println("____________________________________________________________");
         System.out.println("Dude! " + message);
         System.out.println("____________________________________________________________");
     }
 
-    public void showTaskList(List<Task> tasks) {
+    /**
+     * Displays the list of tasks to the user.
+     * @param tasks The list of tasks to display.
+     */
+    public static void showTaskList(List<Task> tasks) {
         System.out.println("____________________________________________________________");
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
@@ -68,7 +80,12 @@ class Ui {
         System.out.println("____________________________________________________________");
     }
 
-    public void showTaskAdded(Task task, int size) {
+    /**
+     * Displays a message indicating that a task has been added.
+     * @param task The task that was added.
+     * @param size The new size of the task list.
+     */
+    public static void showTaskAdded(Task task, int size) {
         System.out.println("____________________________________________________________");
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
@@ -76,7 +93,12 @@ class Ui {
         System.out.println("____________________________________________________________");
     }
 
-    public void showTaskDeleted(Task task, int size) {
+    /**
+     * Displays a message indicating that a task has been deleted.
+     * @param task The task that was deleted.
+     * @param size The new size of the task list.
+     */
+    public static void showTaskDeleted(Task task, int size) {
         System.out.println("____________________________________________________________");
         System.out.println("Noted. I've removed this task:");
         System.out.println("  " + task);
@@ -84,49 +106,69 @@ class Ui {
         System.out.println("____________________________________________________________");
     }
 
-    public void showTaskMarked(Task task) {
+    /**
+     * Displays a message indicating that a task has been marked as done.
+     * @param task The task that was marked as done.
+     */
+    public static void showTaskMarked(Task task) {
         System.out.println("____________________________________________________________");
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  [X] " + task.getDescription());
         System.out.println("____________________________________________________________");
     }
 
-    public void showTaskUnmarked(Task task) {
+    /**
+     * Displays a message indicating that a task has been unmarked as not done.
+     * @param task The task that was unmarked.
+     */
+    public static void showTaskUnmarked(Task task) {
         System.out.println("____________________________________________________________");
         System.out.println("OK, I've marked this task as not done yet:");
         System.out.println("  [ ] " + task.getDescription());
         System.out.println("____________________________________________________________");
     }
 
-    public void showAlreadyMarked() {
+    /**
+     * Displays a message indicating that a task is already marked as done.
+     */
+    public static void showAlreadyMarked() {
         System.out.println("____________________________________________________________");
         System.out.println("This task is already marked as done!");
         System.out.println("____________________________________________________________");
     }
 
-    public void showAlreadyUnmarked() {
+    /**
+     * Displays a message indicating that a task is already unmarked as not done.
+     */
+    public static void showAlreadyUnmarked() {
         System.out.println("____________________________________________________________");
         System.out.println("This task is already not done!");
         System.out.println("____________________________________________________________");
     }
 
-    public void showTasksOnDate(String dateStr, List<Task> tasks) {
+    /**
+     * Displays tasks that are scheduled on a specific date.
+     * @param dateStr The date to check for tasks (formatted as "MMM dd yyyy").
+     * @param tasks The list of tasks to check.
+     */
+    public static void showTasksOnDate(String dateStr, List<Task> tasks) {
         System.out.println("____________________________________________________________");
         System.out.println("Tasks on " + dateStr + ":");
         boolean found = false;
         for (Task task : tasks) {
             if (task instanceof Deadline) {
                 Deadline d = (Deadline) task;
-                if (d.by.toLocalDate().equals(LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("MMM dd yyyy")))) {
+                if (d.getBy().toLocalDate().equals(LocalDate.parse(dateStr,
+                        DateTimeFormatter.ofPattern("MMM dd yyyy")))) {
                     System.out.println("  " + d);
                     found = true;
                 }
             } else if (task instanceof Event) {
                 Event e = (Event) task;
-                if (e.from.toLocalDate().equals(LocalDate.parse(
+                if (e.getFrom().toLocalDate().equals(LocalDate.parse(
                         dateStr, DateTimeFormatter.ofPattern("MMM dd yyyy")))
                         ||
-                        e.to.toLocalDate().equals(LocalDate.parse(
+                        e.getTo().toLocalDate().equals(LocalDate.parse(
                                 dateStr, DateTimeFormatter.ofPattern("MMM dd yyyy")))) {
                     System.out.println("  " + e);
                     found = true;
@@ -139,7 +181,12 @@ class Ui {
         System.out.println("____________________________________________________________");
     }
 
-    public void showFoundTasks(String keyword, List<Task> tasks) {
+    /**
+     * Displays tasks that contain a specific keyword in their description.
+     * @param keyword The keyword to search for.
+     * @param tasks The list of tasks to search.
+     */
+    public static void showFoundTasks(String keyword, List<Task> tasks) {
         System.out.println("____________________________________________________________");
         if (tasks == null || tasks.isEmpty()) {
             System.out.println("No tasks found containing the keyword: " + keyword);

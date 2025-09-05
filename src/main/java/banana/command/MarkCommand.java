@@ -1,6 +1,10 @@
-package banana;
+package banana.command;
 
 import java.io.IOException;
+
+import banana.exceptions.BananaException;
+import banana.utils.Storage;
+import banana.utils.TaskList;
 
 /**
  * Represents a command to mark a task as completed in the task list.
@@ -13,7 +17,7 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws DukeException, IOException {
-        tasks.markTask(index, ui, storage);
+    public void execute(TaskList tasks, Storage storage) throws BananaException, IOException {
+        tasks.markTask(index, storage);
     }
 }

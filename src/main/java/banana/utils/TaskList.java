@@ -1,8 +1,11 @@
-package banana;
+package banana.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import banana.exceptions.BananaException;
+import banana.task.Task;
 
 /**
  * Manages a list of tasks and provides methods to manipulate them.
@@ -21,32 +24,30 @@ public class TaskList {
      * Adds a new task to the task list.
      *
      * @param task    The task to add.
-     * @param ui      The UI instance to display messages.
      * @param storage The Storage instance to save changes.
      * @throws IOException If there is an error saving to storage.
      */
-    public void addTask(Task task, Ui ui, Storage storage) throws IOException {
+    public void addTask(Task task, Storage storage) throws IOException {
         tasks.add(task);
         storage.save(tasks);
-        ui.showTaskAdded(task, tasks.size());
+        Ui.showTaskAdded(task, tasks.size());
     }
 
     /**
      * Deletes the task at the specified index.
      *
      * @param index   The index of the task to delete (0-based).
-     * @param ui      The UI instance to display messages.
      * @param storage The Storage instance to save changes.
-     * @throws DukeException If the index is invalid.
+     * @throws BananaException If the index is invalid.
      * @throws IOException   If there is an error saving to storage.
      */
-    public void deleteTask(int index, Ui ui, Storage storage) throws DukeException, IOException {
+    public void deleteTask(int index, Storage storage) throws BananaException, IOException {
         if (index >= 0 && index < tasks.size()) {
             Task removedTask = tasks.remove(index);
             storage.save(tasks);
-            ui.showTaskDeleted(removedTask, tasks.size());
+            Ui.showTaskDeleted(removedTask, tasks.size());
         } else {
-            throw new DukeException("Invalid task number!");
+            throw new BananaException("Invalid task number!");
         }
     }
 
@@ -54,23 +55,22 @@ public class TaskList {
      * Marks the task at the specified index as done.
      *
      * @param index   The index of the task to mark as done (0-based).
-     * @param ui      The UI instance to display messages.
      * @param storage The Storage instance to save changes.
-     * @throws DukeException If the index is invalid.
+     * @throws BananaException If the index is invalid.
      * @throws IOException   If there is an error saving to storage.
      */
-    public void markTask(int index, Ui ui, Storage storage) throws DukeException, IOException {
+    public void markTask(int index, Storage storage) throws BananaException, IOException {
         if (index >= 0 && index < tasks.size()) {
             Task task = tasks.get(index);
             if (!task.isDone()) {
                 task.markAsDone();
                 storage.save(tasks);
-                ui.showTaskMarked(task);
+                Ui.showTaskMarked(task);
             } else {
-                ui.showAlreadyMarked();
+                Ui.showAlreadyMarked();
             }
         } else {
-            throw new DukeException("Invalid task number!");
+            throw new BananaException("Invalid task number!");
         }
     }
 
@@ -78,32 +78,31 @@ public class TaskList {
      * Unmarks the task at the specified index as not done.
      *
      * @param index   The index of the task to unmark (0-based).
-     * @param ui      The UI instance to display messages.
      * @param storage The Storage instance to save changes.
-     * @throws DukeException If the index is invalid.
+     * @throws BananaException If the index is invalid.
      * @throws IOException   If there is an error saving to storage.
      */
-    public void unmarkTask(int index, Ui ui, Storage storage) throws DukeException, IOException {
+    public void unmarkTask(int index, Storage storage) throws BananaException, IOException {
         if (index >= 0 && index < tasks.size()) {
             Task task = tasks.get(index);
             if (task.isDone()) {
                 task.markAsDone();
                 storage.save(tasks);
-                ui.showTaskUnmarked(task);
+                Ui.showTaskUnmarked(task);
             } else {
-                ui.showAlreadyUnmarked();
+                Ui.showAlreadyUnmarked();
             }
         } else {
-            throw new DukeException("Invalid task number!");
+            throw new BananaException("Invalid task number!");
         }
     }
 
-    public void listTasks(Ui ui) {
-        ui.showTaskList(tasks);
+    public void listTasks() {
+        Ui.showTaskList(tasks);
     }
 
-    public void findTasksOnDate(String dateStr, Ui ui) {
-        ui.showTasksOnDate(dateStr, tasks);
+    public void findTasksOnDate(String dateStr) {
+        Ui.showTasksOnDate(dateStr, tasks);
     }
 
     public List<Task> getTasks() {
@@ -114,7 +113,7 @@ public class TaskList {
      *
      * @param keyword The keyword to search for.
      */
-    public void findTasks(String keyword, Ui ui) {
-        ui.showFoundTasks(keyword, tasks);
+    public void findTasks(String keyword) {
+        Ui.showFoundTasks(keyword, tasks);
     }
 }

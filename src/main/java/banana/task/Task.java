@@ -1,4 +1,4 @@
-package banana;
+package banana.task;
 
 /**
  * Represents a task with a description and completion status.
