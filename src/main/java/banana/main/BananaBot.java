@@ -1,22 +1,20 @@
 package banana.main;
 
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 
 import banana.command.Command;
 import banana.exceptions.BananaException;
 import banana.utils.Parser;
 import banana.utils.Storage;
 import banana.utils.TaskList;
-import banana.utils.Ui;
 
 /**
  * A personal assistant chatbot that helps users manage their tasks.
  */
 public class BananaBot {
+    private static TaskList tasks = new TaskList();
     private Storage storage;
-    private TaskList tasks;
-    private Ui ui;
-    private Parser parser;
 
     /**
      * Initializes the BananaBot with the specified file path for storage.
@@ -24,41 +22,42 @@ public class BananaBot {
      * @param filePath The file path where tasks are stored.
      */
     public BananaBot(String filePath) {
-        ui = new Ui();
         storage = new Storage(filePath);
-        parser = new Parser();
+    }
+    /**
+     * Loads tasks from the storage file.
+     *
+     * @return A message indicating the result of the load operation.
+     */
+    public String loadTasks() {
         try {
-            tasks = new TaskList(storage.load());
+            tasks = storage.load();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < tasks.size(); i++) {
+                sb.append(tasks.getTask(i).toString()).append("\n");
+            }
+            return sb.toString().trim(); // Remove trailing newline
         } catch (IOException e) {
-            ui.showLoadingError();
-            tasks = new TaskList();
+            return "Error: Failed to reload tasks: " + e.getMessage();
         }
     }
 
-    /**
-     * Runs the main loop of the BananaBot, processing user commands until exit.
-     */
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                ui.showLine();
-                Command c = parser.parse(fullCommand);
-                c.execute(tasks, storage);
-                isExit = c.isExit();
-            } catch (BananaException e) {
-                ui.showError(e.getMessage());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } finally {
-                ui.showLine();
-            }
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            return c.execute(tasks, storage);
+        } catch (DateTimeParseException e) {
+            return "Error: Invalid date-time format. Please enter date in yyyy-mm-dd HHmm format.";
+        } catch (NumberFormatException e) {
+            return "Error: Task number must be an integer.";
+        } catch (BananaException e) {
+            return "Error: " + e.getMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public static void main(String[] args) {
-        new BananaBot("data/bot.txt").run();
+        //do nothing
     }
 }

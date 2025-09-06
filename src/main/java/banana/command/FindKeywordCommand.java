@@ -17,7 +17,11 @@ public class FindKeywordCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage) throws BananaException {
-        tasks.findTasks(keyword);
+    public String execute(TaskList tasks, Storage storage) throws BananaException {
+        TaskList found = tasks.findTasks(keyword);
+        if (found.size() == 0) {
+            return "No tasks found containing: " + keyword;
+        }
+        return "Here are the matching tasks:\n" + found.listTasks();
     }
 }

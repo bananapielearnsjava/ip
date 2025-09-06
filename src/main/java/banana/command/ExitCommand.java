@@ -2,15 +2,14 @@ package banana.command;
 
 import banana.utils.Storage;
 import banana.utils.TaskList;
-import banana.utils.Ui;
 
 /**
  * Represents a command to exit the application.
  */
 public class ExitCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Storage storage) {
-        Ui.showGoodbye();
+    public String execute(TaskList tasks, Storage storage) {
+        return "Bye. Hope to see you again soon!";
     }
 
     @Override

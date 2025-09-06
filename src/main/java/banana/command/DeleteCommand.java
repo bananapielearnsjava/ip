@@ -3,6 +3,7 @@ package banana.command;
 import java.io.IOException;
 
 import banana.exceptions.BananaException;
+import banana.task.Task;
 import banana.utils.Storage;
 import banana.utils.TaskList;
 
@@ -17,7 +18,10 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage) throws BananaException, IOException {
-        tasks.deleteTask(index, storage);
+    public String execute(TaskList tasks, Storage storage) throws BananaException, IOException {
+        Task removed = tasks.deleteTask(index);
+        storage.save(tasks);
+        return "Noted. I've removed this task:\n  " + removed
+                + "\nNow you have " + tasks.size() + " tasks in the list.";
     }
 }

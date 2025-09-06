@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import banana.task.Deadline;
 import org.junit.jupiter.api.Test;
+
+import banana.task.Deadline;
 
 public class DeadlineTest {
     @Test
@@ -33,6 +34,6 @@ public class DeadlineTest {
         Deadline deadline = new Deadline("Finish report", "2025-08-31 1430");
         LocalDateTime expectedDate = LocalDateTime.parse("2025-08-31 1430",
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-        assertEquals(expectedDate, deadline.by, "The deadline date should be correctly parsed");
+        assertEquals(expectedDate, deadline.getBy(), "The deadline date should be correctly parsed");
     }
 }

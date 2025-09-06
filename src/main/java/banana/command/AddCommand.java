@@ -18,7 +18,10 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage) throws BananaException, IOException {
-        tasks.addTask(task, storage);
+    public String execute(TaskList tasks, Storage storage) throws BananaException, IOException {
+        tasks.addTask(task);
+        storage.save(tasks);
+        return "Got it. I've added this task:\n  " + task
+                + "\nNow you have " + tasks.size() + " tasks in the list.";
     }
 }

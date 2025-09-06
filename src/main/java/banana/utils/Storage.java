@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import banana.task.Deadline;
@@ -44,12 +42,15 @@ public class Storage {
      * @return A list of tasks loaded from the file.
      * @throws IOException If there is an error reading the file.
      */
-    public List<Task> load() throws IOException {
-        List<Task> tasks = new ArrayList<>();
+    public TaskList load() throws IOException {
+        TaskList tasks = new TaskList();
         File file = new File(filePath);
+
         if (!file.exists()) {
+            file.createNewFile(); // create empty file if not found
             return tasks;
         }
+
         try (Scanner fileScanner = new Scanner(file)) {
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
@@ -58,6 +59,7 @@ public class Storage {
                 boolean isDone = parts[1].equals("1");
                 String description = parts[2];
                 Task task = null;
+
                 switch (type) {
                 case "T":
                     task = new ToDo(description);
@@ -73,14 +75,13 @@ public class Storage {
                     task = new Event(description, from, to);
                     break;
                 default:
-                    System.out.println("Unknown task type in storage: " + type);
+                    continue;
                 }
-                if (task != null) {
-                    if (isDone) {
-                        task.markAsDone();
-                    }
-                    tasks.add(task);
+
+                if (task != null && isDone) {
+                    task.markAsDone();
                 }
+                tasks.addTask(task);
             }
         }
         return tasks;
@@ -92,9 +93,9 @@ public class Storage {
      * @param tasks The list of tasks to save.
      * @throws IOException If there is an error writing to the file.
      */
-    public void save(List<Task> tasks) throws IOException {
+    public void save(TaskList tasks) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            for (Task task : tasks) {
+            for (Task task : tasks.getAllTasks()) {
                 String line = "";
                 if (task instanceof ToDo) {
                     line = "T | " + (task.isDone() ? 1 : 0) + " | " + task.getDescription();
@@ -112,4 +113,5 @@ public class Storage {
             }
         }
     }
+
 }

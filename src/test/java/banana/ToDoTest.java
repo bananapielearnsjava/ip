@@ -2,8 +2,9 @@ package banana;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import banana.task.ToDo;
 import org.junit.jupiter.api.Test;
+
+import banana.task.ToDo;
 
 public class ToDoTest {
     @Test

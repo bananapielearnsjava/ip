@@ -11,7 +11,7 @@ import banana.utils.TaskList;
  */
 public class ListCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Storage storage) throws BananaException, IOException {
-        tasks.listTasks();
+    public String execute(TaskList tasks, Storage storage) throws BananaException, IOException {
+        return "Here are the matching tasks:\n" + tasks.listTasks();
     }
 }
