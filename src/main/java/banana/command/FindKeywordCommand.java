@@ -4,7 +4,6 @@ package banana.command;
 import banana.exceptions.BananaException;
 import banana.utils.Storage;
 import banana.utils.TaskList;
-import banana.utils.Ui;
 
 /**
  * Represents a command to find tasks containing a specific keyword in the task list.
@@ -12,7 +11,13 @@ import banana.utils.Ui;
 public class FindKeywordCommand extends Command {
     private final String keyword;
 
-    public FindKeywordCommand(String keyword, Ui ui) {
+    /**
+     * Constructs a FindKeywordCommand with the specified keyword.
+     *
+     * @param keyword The keyword to search for in tasks.
+     */
+    public FindKeywordCommand(String keyword) {
+        assert keyword != null && !keyword.isEmpty() : "Keyword must be a non-empty string";
         this.keyword = keyword;
     }
 

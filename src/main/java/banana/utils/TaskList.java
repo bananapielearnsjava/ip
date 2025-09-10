@@ -11,8 +11,12 @@ import banana.task.Task;
 public class TaskList {
     private ArrayList<Task> tasks;
 
+    /**
+     * Initializes an empty task list.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
+        assert tasks != null : "TaskList initialization failed: tasks array is null";
     }
     /**
      * Adds a new task to the task list.
@@ -20,6 +24,7 @@ public class TaskList {
      * @param task    The task to add.
      */
     public void addTask(Task task) {
+        assert task != null : "Cannot add null task to TaskList";
         tasks.add(task);
     }
 
@@ -31,6 +36,7 @@ public class TaskList {
      * @throws BananaException If the index is invalid.
      */
     public Task deleteTask(int index) throws BananaException {
+        assert !tasks.isEmpty() : "Cannot delete from an empty TaskList";
         if (index >= 0 && index < tasks.size()) {
             return tasks.remove(index);
         } else {
@@ -43,6 +49,7 @@ public class TaskList {
      * @return A string representation of all tasks.
      */
     public String listTasks() {
+        assert tasks != null : "TaskList is null when trying to list tasks";
         if (tasks.isEmpty()) {
             return "You have no tasks in your list.";
         }
@@ -60,6 +67,7 @@ public class TaskList {
      * @throws BananaException If the index is invalid.
      */
     public void markTask(int index) throws BananaException {
+        assert index >= 0 && index < tasks.size() : "Invalid index " + index + " for TaskList size " + tasks.size();
         if (index >= 0 && index < tasks.size()) {
             Task task = tasks.get(index);
             if (!task.isDone()) {
@@ -77,6 +85,7 @@ public class TaskList {
      * @throws BananaException If the index is invalid.
      */
     public void unmarkTask(int index) throws BananaException {
+        assert index >= 0 && index < tasks.size() : "Invalid index " + index + " for TaskList size " + tasks.size();
         if (index >= 0 && index < tasks.size()) {
             Task task = tasks.get(index);
             if (task.isDone()) {
@@ -88,9 +97,11 @@ public class TaskList {
     }
 
     public Task getTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Invalid index " + index + " for TaskList size " + tasks.size();
         return tasks.get(index);
     }
     public ArrayList<Task> getAllTasks() {
+        assert tasks != null : "TaskList is null when trying to get all tasks";
         return tasks;
     }
     /**
@@ -99,6 +110,7 @@ public class TaskList {
      * @param keyword The keyword to search for.
      */
     public TaskList findTasks(String keyword) {
+        assert keyword != null && !keyword.isEmpty() : "Keyword for finding tasks cannot be null or empty";
         TaskList foundtasks = new TaskList();
         for (Task task : tasks) {
             if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
@@ -113,6 +125,7 @@ public class TaskList {
      * @param dateStr The date to search for in yyyy-mm-dd format.
      */
     public TaskList findTasksOnDate(String dateStr) {
+        assert dateStr != null && !dateStr.isEmpty() : "Date string for finding tasks cannot be null or empty";
         TaskList foundtasks = new TaskList();
         for (Task task : tasks) {
             if (task instanceof banana.task.Deadline) {

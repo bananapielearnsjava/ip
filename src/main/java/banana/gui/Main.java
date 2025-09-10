@@ -18,6 +18,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        assert stage != null : "Stage is null during initialization";
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();

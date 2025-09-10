@@ -33,6 +33,7 @@ public class Parser {
      * @throws IOException   If there is an error during command execution.
      */
     public static Command parse(String input) throws BananaException, IOException {
+        assert input != null && !input.trim().isEmpty() : "Input cannot be null or empty";
         String[] parts = input.trim().split(" ", 2);
         String commandWord = parts[0].toLowerCase();
 
@@ -107,7 +108,7 @@ public class Parser {
             if (parts.length < 2) {
                 throw new BananaException("Please provide a keyword to search.");
             }
-            return new FindKeywordCommand(parts[1].trim(), new Ui());
+            return new FindKeywordCommand(parts[1].trim());
 
         default:
             throw new BananaException("I'm sorry, but I don't know what that means :-(");

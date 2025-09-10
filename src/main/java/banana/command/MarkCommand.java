@@ -3,9 +3,9 @@ package banana.command;
 import java.io.IOException;
 
 import banana.exceptions.BananaException;
+import banana.task.Task;
 import banana.utils.Storage;
 import banana.utils.TaskList;
-import banana.task.Task;
 
 /**
  * Represents a command to mark a task as completed in the task list.
@@ -13,7 +13,13 @@ import banana.task.Task;
 public class MarkCommand extends Command {
     private final int index;
 
+    /**
+     * Constructs a MarkCommand with the specified task index.
+     *
+     * @param index The index of the task to mark (0-based).
+     */
     public MarkCommand(int index) {
+        assert index >= 0 : "Index must be non-negative";
         this.index = index;
     }
 
