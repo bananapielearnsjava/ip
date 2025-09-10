@@ -26,10 +26,10 @@ public class Storage {
      */
     public Storage(String filePath) {
         this.filePath = filePath;
-        createStorageIfNotExists();
+        createStorageIfDoesNotExists();
     }
 
-    private void createStorageIfNotExists() {
+    private void createStorageIfDoesNotExists() {
         File directory = new File(STORAGE_DIR);
         if (!directory.exists()) {
             directory.mkdirs();
@@ -58,7 +58,7 @@ public class Storage {
                 String type = parts[0];
                 boolean isDone = parts[1].equals("1");
                 String description = parts[2];
-                Task task = null;
+                Task task;
 
                 switch (type) {
                 case "T":
@@ -77,7 +77,6 @@ public class Storage {
                 default:
                     continue;
                 }
-
                 if (task != null && isDone) {
                     task.markAsDone();
                 }

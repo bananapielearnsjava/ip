@@ -67,7 +67,8 @@ public class TaskList {
      * @throws BananaException If the index is invalid.
      */
     public void markTask(int index) throws BananaException {
-        assert index >= 0 && index < tasks.size() : "Invalid index " + index + " for TaskList size " + tasks.size();
+        assert index >= 0 && index < tasks.size() : "Invalid index "
+                + index + " for TaskList size " + tasks.size();
         if (index >= 0 && index < tasks.size()) {
             Task task = tasks.get(index);
             if (!task.isDone()) {

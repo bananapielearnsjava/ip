@@ -11,7 +11,4 @@ import banana.utils.TaskList;
  */
 public abstract class Command {
     public abstract String execute(TaskList tasks, Storage storage) throws BananaException, IOException;
-    public boolean isExit() {
-        return false;
-    }
 }
