@@ -13,7 +13,13 @@ import banana.utils.TaskList;
 public class DeleteCommand extends Command {
     private final int index;
 
+    /**
+     * Constructs a DeleteCommand with the specified task index.
+     *
+     * @param index The index of the task to delete (0-based).
+     */
     public DeleteCommand(int index) {
+        assert index >= 0 : "Index must be non-negative";
         this.index = index;
     }
 

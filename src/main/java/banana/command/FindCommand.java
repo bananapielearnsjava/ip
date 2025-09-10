@@ -14,7 +14,13 @@ import banana.utils.TaskList;
 public class FindCommand extends Command {
     private final String dateStr;
 
+    /**
+     * Constructs a FindCommand with the specified date string.
+     *
+     * @param dateStr The date string in ISO_LOCAL_DATE format (yyyy-MM-dd).
+     */
     public FindCommand(String dateStr) {
+        assert dateStr != null && !dateStr.isEmpty() : "Date string must be a non-empty string";
         this.dateStr = LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE).toString();
     }
 

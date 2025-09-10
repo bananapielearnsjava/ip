@@ -3,9 +3,9 @@ package banana.command;
 import java.io.IOException;
 
 import banana.exceptions.BananaException;
+import banana.task.Task;
 import banana.utils.Storage;
 import banana.utils.TaskList;
-import banana.task.Task;
 
 /**
  * Represents a command to unmark a task as not done.
@@ -13,7 +13,13 @@ import banana.task.Task;
 public class UnmarkCommand extends Command {
     private final int index;
 
+    /**
+     * Constructs an UnmarkCommand with the specified task index.
+     *
+     * @param index The index of the task to unmark (0-based).
+     */
     public UnmarkCommand(int index) {
+        assert index >= 0 : "Index must be non-negative";
         this.index = index;
     }
 

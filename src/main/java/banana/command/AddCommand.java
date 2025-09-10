@@ -13,7 +13,13 @@ import banana.utils.TaskList;
 public class AddCommand extends Command {
     private final Task task;
 
+    /**
+     * Constructs an AddCommand with the specified task.
+     *
+     * @param task The task to be added.
+     */
     public AddCommand(Task task) {
+        assert task != null : "Task cannot be null";
         this.task = task;
     }
 
