@@ -1,8 +1,12 @@
 package banana.utils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import banana.exceptions.BananaException;
+import banana.task.Deadline;
+import banana.task.Event;
 import banana.task.Task;
 
 /**
@@ -143,6 +147,20 @@ public class TaskList {
             }
         }
         return foundtasks;
+    }
+    /**
+     * Sorts the tasks in the task list by their date/time.
+     * Tasks without a date/time are pushed to the end of the list.
+     */
+    public void sortByDate() {
+        tasks.sort(Comparator.comparing(task -> {
+            if (task instanceof Deadline) {
+                return ((Deadline) task).getBy();
+            } else if (task instanceof Event) {
+                return ((Event) task).getFrom(); // Use start date for sorting
+            }
+            return LocalDateTime.MAX; // Push non-date tasks to the end
+        }));
     }
 
     public int size() {
