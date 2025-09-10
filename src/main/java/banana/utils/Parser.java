@@ -12,6 +12,7 @@ import banana.command.FindCommand;
 import banana.command.FindKeywordCommand;
 import banana.command.ListCommand;
 import banana.command.MarkCommand;
+import banana.command.SortCommand;
 import banana.command.UnmarkCommand;
 import banana.exceptions.BananaException;
 import banana.task.Deadline;
@@ -109,6 +110,9 @@ public class Parser {
                 throw new BananaException("Please provide a keyword to search.");
             }
             return new FindKeywordCommand(parts[1].trim());
+
+        case "sort":
+            return new SortCommand("date");
 
         default:
             throw new BananaException("I'm sorry, but I don't know what that means :-(");
