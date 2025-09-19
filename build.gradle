@@ -63,7 +63,7 @@ sourceSets {
 shadowJar {
     archiveBaseName = "BananaBot"
     archiveClassifier = null
-    archiveFileName = 'banana.jar'
+    archiveFileName = 'banana_fat.jar'
 }
 
 checkstyle {

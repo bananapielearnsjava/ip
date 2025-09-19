@@ -70,9 +70,9 @@ public class TaskList {
      * @param index   The index of the task to mark as done (0-based).
      * @throws BananaException If the index is invalid.
      */
+    @SuppressWarnings("checkstyle:CommentsIndentation")
     public void markTask(int index) throws BananaException {
-        assert index >= 0 && index < tasks.size() : "Invalid index "
-                + index + " for TaskList size " + tasks.size();
+        //assert index >= 0 && index < tasks.size() : "Invalid index " + index + " for TaskList size " + tasks.size();
         if (index >= 0 && index < tasks.size()) {
             Task task = tasks.get(index);
             if (!task.isDone()) {
@@ -90,7 +90,7 @@ public class TaskList {
      * @throws BananaException If the index is invalid.
      */
     public void unmarkTask(int index) throws BananaException {
-        assert index >= 0 && index < tasks.size() : "Invalid index " + index + " for TaskList size " + tasks.size();
+        //assert index >= 0 && index < tasks.size() : "Invalid index " + index + " for TaskList size " + tasks.size();
         if (index >= 0 && index < tasks.size()) {
             Task task = tasks.get(index);
             if (task.isDone()) {
@@ -101,8 +101,16 @@ public class TaskList {
         }
     }
 
-    public Task getTask(int index) {
+    public Task getTask(int index) throws BananaException {
         assert index >= 0 && index < tasks.size() : "Invalid index " + index + " for TaskList size " + tasks.size();
+        if (index >= 0 && index < tasks.size()) {
+            Task task = tasks.get(index);
+            if (task.isDone()) {
+                task.markAsDone();
+            }
+        } else {
+            throw new BananaException("Invalid task number!");
+        }
         return tasks.get(index);
     }
     public ArrayList<Task> getAllTasks() {

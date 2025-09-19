@@ -17,7 +17,9 @@ import banana.task.ToDo;
  */
 public class Storage {
     private static final String STORAGE_DIR = "data";
-    private final String filePath;
+    private static final String STORAGE_FILE = "banana.txt";
+
+    private String filePath;
 
     /**
      * Constructs a Storage instance with the specified file path.
@@ -34,6 +36,7 @@ public class Storage {
         if (!directory.exists()) {
             directory.mkdirs();
         }
+        this.filePath = STORAGE_DIR + "/" + STORAGE_FILE;
     }
 
     /**

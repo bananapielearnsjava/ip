@@ -39,6 +39,8 @@ public class BananaBot {
             return sb.toString().trim(); // Remove trailing newline
         } catch (IOException e) {
             return "Error: Failed to reload tasks: " + e.getMessage();
+        } catch (BananaException e) {
+            throw new RuntimeException(e);
         }
     }
 
