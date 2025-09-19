@@ -5,6 +5,8 @@ deadlines, and events through a simple chat-like interface. With its colorful de
 enjoyable. Use the text input at the bottom to enter commands, and watch your tasks appear in the scrollable dialog 
 area. Let’s explore how to use BananaBot effectively!
 
+![Product screenshot.](https://github.com/bananapielearnsjava/ip/blob/master/docs/Ui.png)
+
 ## Adding todo
 
 The todo command allows you to add a normal todo task.
