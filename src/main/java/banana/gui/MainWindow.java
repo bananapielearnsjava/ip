@@ -2,7 +2,6 @@ package banana.gui;
 
 import banana.main.BananaBot;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -15,14 +14,39 @@ import javafx.scene.layout.VBox;
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+    static final String LOGO =
+            "                  __,__\n"
+                    + "        .--.  .-\"     \"-.  .--.\n"
+                    + "       /  .. \\/  .-. .-.  \\/ ..     \\\n"
+                    + "      | |   '|  /    Y    \\  |'   | |  |\n"
+                    + "      | \\    \\  \\ 0 | 0 /  /    / |  |\n"
+                    + "       \\ '- ,\\.-\"````\"-./, -'/\n"
+                    + "        `'-' /_   ^ ^   _\\ '-'`\n"
+                    + "        .--'|  \\._ _ _./  |'--.\n"
+                    + "      /`     \\   \\.-.  /   /    `\\\n"
+                    + "     /        '._/  |-' _.'       \\\n"
+                    + "    /          ;  /--~'   |       \\\n"
+                    + "   /        .'\\|.-\\--.     \\       \\\n"
+                    + "  /   .'-. /.-.;\\  |\\|'~'-.|\\       \\\n"
+                    + "  \\       `-./`|_\\_/ `     `\\'.      \\\n"
+                    + "   '.      ;     ___)        '.`;    /\n"
+                    + "     '-.,_ ;     ___)          \\/   /\n"
+                    + "      \\   ``'------'\\       \\   `  /\n"
+                    + "       '.    \\       '.      |   ;/_\n"
+                    + "...  ___>     '.       \\_ _ _/   ,  '--.\n"
+                    + "   .'   '.   .-~~~~~-. /     |--'`~~-.  \\\n"
+                    + "  // / .---'/  .-~~-._/ / / /---..__.'  /\n"
+                    + " ((_(_/    /  /      (_(_(_(---.__    .'\n"
+                    + "           | |     _              `~~`\n"
+                    + "           | |     \\'.\n"
+                    + "            \\ '....' |\n"
+                    + "             '.,___.'";
     @FXML
     private ScrollPane scrollPane;
     @FXML
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
-    @FXML
-    private Button sendButton;
 
     private BananaBot bot = new BananaBot("src/main/data/bot.txt");
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/bob.png"));
@@ -34,36 +58,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        final String LOGO =
-                "                  __,__\n" +
-                        "        .--.  .-\"     \"-.  .--.\n" +
-                        "       / .. \\/  .-. .-.  \\/ .. \\\n" +
-                        "      | |  '|  /   Y   \\  |'  | |\n" +
-                        "      | \\   \\  \\ 0 | 0 /  /   / |\n" +
-                        "       \\ '- ,\\.-\"`` ``\"-./, -' /\n" +
-                        "        `'-' /_   ^ ^   _\\ '-'`\n" +
-                        "        .--'|  \\._ _ _./  |'--.\n" +
-                        "      /`    \\   \\.-.  /   /    `\\\n" +
-                        "     /       '._/  |-' _.'       \\\n" +
-                        "    /          ;  /--~'   |       \\\n" +
-                        "   /        .'\\|.-\\--.     \\       \\\n" +
-                        "  /   .'-. /.-.;\\  |\\|'~'-.|\\       \\\n" +
-                        "  \\       `-./`|_\\_/ `     `\\'.      \\\n" +
-                        "   '.      ;     ___)        '.`;    /\n" +
-                        "     '-.,_ ;     ___)          \\/   /\n" +
-                        "      \\   ``'------'\\       \\   `  /\n" +
-                        "       '.    \\       '.      |   ;/_\n" +
-                        "...  ___>     '.       \\_ _ _/   ,  '--.\n" +
-                        "   .'   '.   .-~~~~~-. /     |--'`~~-.  \\\n" +
-                        "  // / .---'/  .-~~-._/ / / /---..__.'  /\n" +
-                        " ((_(_/    /  /      (_(_(_(---.__    .'\n" +
-                        "           | |     _              `~~`\n" +
-                        "           | |     \\'.\n" +
-                        "            \\ '....' |\n" +
-                        "             '.,___.'";
         String welcomeMessage = "Hello I'm BananaBot\n" + LOGO + "\nWhat can I do for you?";
-
-        String loadMessage = bot.loadTasks();
         dialogContainer.getChildren().add(DialogBox.getBotDialog(welcomeMessage, botImage));
     }
     public void setBot(BananaBot b) {
