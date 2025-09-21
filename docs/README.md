@@ -13,8 +13,8 @@ The todo command allows you to add a normal todo task.
 Once added, the task will appear in your task list.
 
 **Examples of Usage:**\
-todo <xxx>\
-todo laundry
+Format: `todo` + `description`\
+Example: `todo laundry`
 
 **Expected Outcome:**\
 The task will be added to your list. The dialog box will display a confirmation message.
@@ -34,8 +34,8 @@ chores with a deadline.
 Once added, the task will appear in your task list with the due date.
 
 **Examples of Usage:**\
-deadline <xxx> /by yyyy-mm-dd hhMM\
-deadline 2103T homework /by 2025-09-20 2359
+Format: `deadline` + `description` + `/by yyyy-mm-dd hhMM`\
+Example: `deadline 2103T homework /by 2025-09-20 2359`
 
 **Expected Outcome:**\
 The task will be added to your list with the specified due date. The dialog box will display a confirmation message, 
@@ -57,8 +57,8 @@ The event command adds a task with a start and end time or date range, perfect f
 parties or study sessions. Use /from and /to to specify the range.
 
 **Examples of Usage:**\
-event <xxx> /from yyyy-mm-dd hhMM /to yyyy-mm-dd hhMM\
-event birthday party /from 2025-09-20 1800 /to 2025-09-20 2200
+Format: `event` + `description` + `/from yyyy-mm-dd hhMM` +  `/to yyyy-mm-dd hhMM`\
+Example: `event birthday party /from 2025-09-20 1800 /to 2025-09-20 2200`
 
 **Expected Outcome:**\
 The event will be added to your list with the specified time range. The dialog box will display a confirmation, 
@@ -81,7 +81,7 @@ The sort command organizes your tasks by date, making it easy to see what’s du
 planning, especially to manage multiple tasks. No arguments are needed—just type sort to trigger date-based sorting.
 
 **Examples of Usage:**\
-sort
+Format: `sort`
 
 **Expected Outcome:**\
 All tasks in the list will be rearranged in chronological order based on their due dates. The dialog box will update 
@@ -94,7 +94,8 @@ The mark command lets you mark a task as completed. This is great for tracking p
 Specify the task number from the list to mark it as done.
 
 **Examples of Usage:**\
-mark 1
+Format: `mark` + `task index`\
+Example: `mark 1`
 
 **Expected Outcome:**\
 The specified task will be marked as done, and the dialog box will update to reflect its completed status 
@@ -113,7 +114,8 @@ The unmark command reverses a task’s completed status, turning it back to inco
 giving you a chance to revisit unfinished work.
 
 **Examples of Usage**\
-unmark 1
+Format: `unmark` + `task index`\
+Example: `unmark 1`
 
 **Expected Outcome:**\
 The specified task will be unmarked, and the dialog box will update to show its incomplete status.
@@ -132,7 +134,7 @@ The list command displays all your current tasks, including deadlines and their 
 overview of what needs to be done.
 
 **Examples of Usage:**\
-list
+Format: `list`
 
 **Expected Outcome:**\
 The dialog box will show a numbered list of all tasks, with details like due dates and completion status.
@@ -152,7 +154,8 @@ The find keyword command searches your task list for tasks containing a specific
 locate tasks related to a topic.
 
 **Examples of Usage:**\
-find party
+Format: `find` + `keyword`\
+Example: `find party`
 
 **Expected Outcome:**\
 The dialog box will display a list of tasks that include the keyword.
@@ -169,8 +172,8 @@ Here are the matching tasks:
 The on command filters tasks due on a specific date. This is useful for planning your day or week based on deadlines.
 
 **Examples of Usage:**\
-on yyyy-mm-dd\
-on 2025-09-23
+Format: `on` +  `yyyy-mm-dd`\
+Example: `on 2025-09-23`
 
 **Expected Outcome:**\
 The dialog box will show a list of tasks due on the specified date, including deadlines and events.
@@ -187,7 +190,8 @@ The delete command removes a task from your list. Use the task number to delete 
 irrelevant tasks.
 
 **Examples of Usage:**\
-delete 3
+Format: `delete` + `task index`\
+Example: `delete 3`
 
 **Expected Outcome:**\
 The specified task will be removed, and the dialog box will confirm the deletion with an updated task count.
