@@ -2,7 +2,9 @@ package banana.utils;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import banana.command.AddCommand;
 import banana.command.Command;
@@ -40,6 +42,9 @@ public class Parser {
 
         switch (commandWord) {
         case "list":
+            if (parts.length > 1) {
+                throw new BananaException("The 'list' command should not have extra arguments.");
+            }
             return new ListCommand();
 
         case "bye":
@@ -71,9 +76,22 @@ public class Parser {
             }
             String[] deadlineParts = parts[1].split("/by", 2);
             if (deadlineParts.length < 2) {
-                throw new BananaException("Invalid deadline format! Use: deadline <desc> /by <date time>");
+                throw new BananaException("Invalid deadline format! Use: deadline <desc> /by yyyy-MM-dd HHmm");
             }
-            return new AddCommand(new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim()));
+            String dDesc = deadlineParts[0].trim();
+            String by = deadlineParts[1].trim();
+            if (dDesc.isEmpty()) {
+                throw new BananaException("The description of a deadline cannot be empty.");
+            }
+            if (by.isEmpty()) {
+                throw new BananaException("The deadline date/time cannot be empty.");
+            }
+            try {
+                LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            } catch (DateTimeParseException e) {
+                throw new BananaException("Enter correct date time format yyyy-MM-dd HHmm.");
+            }
+            return new AddCommand(new Deadline(dDesc, by));
 
         case "event":
             if (parts.length < 2) {
@@ -83,12 +101,24 @@ public class Parser {
             if (eventParts.length < 2) {
                 throw new BananaException("Invalid event format! Use: event <desc> /from <start> /to <end>");
             }
-            String description = eventParts[0].trim();
+            String eDesc = eventParts[0].trim();
+            if (eDesc.isEmpty()) {
+                throw new BananaException("The description of an event cannot be empty.");
+            }
             String[] timeParts = eventParts[1].split("/to", 2);
             if (timeParts.length < 2) {
                 throw new BananaException("Missing /to in event command.");
             }
-            return new AddCommand(new Event(description, timeParts[0].trim(), timeParts[1].trim()));
+            String from = timeParts[0].trim();
+            String to = timeParts[1].trim();
+
+            try {
+                LocalDateTime.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+                LocalDateTime.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            } catch (DateTimeParseException e) {
+                throw new BananaException("Enter correct date time format yyyy-MM-dd HHmm.");
+            }
+            return new AddCommand(new Event(eDesc, timeParts[0].trim(), timeParts[1].trim()));
 
         case "delete":
             if (parts.length < 2) {
@@ -98,11 +128,15 @@ public class Parser {
             return new DeleteCommand(deleteIndex);
 
         case "on":
-            if (parts.length < 2) {
+            if (parts.length != 2) {
                 throw new BananaException("Please specify a date in yyyy-MM-dd format.");
             }
             String dateStr = parts[1].trim();
-            LocalDate date = LocalDate.parse(parts[1].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            try {
+                LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            } catch (DateTimeParseException e) {
+                throw new BananaException("Invalid format! Please enter only a date in yyyy-MM-dd format.");
+            }
             return new FindCommand(dateStr);
 
         case "find":

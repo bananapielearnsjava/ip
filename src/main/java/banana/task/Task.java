@@ -29,7 +29,11 @@ public class Task {
     }
 
     public void markAsDone() {
-        this.isDone = !this.isDone;;
+        this.isDone = true;
+    }
+
+    public void markAsNotDone() {
+        this.isDone = false;
     }
 
     @Override

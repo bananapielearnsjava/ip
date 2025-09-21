@@ -94,7 +94,7 @@ public class TaskList {
         if (index >= 0 && index < tasks.size()) {
             Task task = tasks.get(index);
             if (task.isDone()) {
-                task.markAsDone();
+                task.markAsNotDone();
             }
         } else {
             throw new BananaException("Invalid task number!");

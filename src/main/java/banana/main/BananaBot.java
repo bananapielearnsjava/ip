@@ -1,7 +1,7 @@
 package banana.main;
 
 import java.io.IOException;
-import java.time.format.DateTimeParseException;
+//import java.time.format.DateTimeParseException;
 
 import banana.command.Command;
 import banana.exceptions.BananaException;
@@ -48,8 +48,6 @@ public class BananaBot {
         try {
             Command c = Parser.parse(input);
             return c.execute(tasks, storage);
-        } catch (DateTimeParseException e) {
-            return "Error: Invalid date-time format. Please enter date in yyyy-mm-dd HHmm format.";
         } catch (NumberFormatException e) {
             return "Error: Task number must be an integer.";
         } catch (BananaException e) {
